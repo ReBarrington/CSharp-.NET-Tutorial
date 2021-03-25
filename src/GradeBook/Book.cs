@@ -10,6 +10,9 @@ namespace GradeBook
         {
             grades = new List<double>();
             this.name = name;
+            // The double is a fundamental data type built 
+            // into the compiler and used to define numeric 
+            // variables holding numbers with decimal points. 
         }
 
         public void AddGrade(double grade)
