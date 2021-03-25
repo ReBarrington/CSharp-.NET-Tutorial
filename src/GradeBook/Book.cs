@@ -3,13 +3,24 @@ using System.Collections.Generic;
 
 namespace GradeBook
 {
-    class Book
+
+    public class NamedObject
     {
-        public Book(string name) 
+        public string Name {
+            get;
+            set;
+        }
+    }
+
+    public class Book : NamedObject
+    {
+        public Book(string teacher) 
         // constructor
         {
+            name = Name;
+            // getting name from NamedObject inheritance 
+            this.teacher = teacher;
             grades = new List<double>();
-            this.name = name;
             // The double is a fundamental data type built 
             // into the compiler and used to define numeric 
             // variables holding numbers with decimal points. 
@@ -34,13 +45,15 @@ namespace GradeBook
             }
             average /= grades.Count;
             // N1 is number with one decimal
+            Console.WriteLine($"{this.teacher}'s class:");
             Console.WriteLine($"The lowest grade is {lowestGrade}");
             Console.WriteLine($"The highest grade is {highestGrade}");
             Console.WriteLine($"The average grade is {average:N1}");
         }
 
         // fields
-        private List<double> grades;
         private string name;
+        private string teacher;
+        private List<double> grades;
     }
 }

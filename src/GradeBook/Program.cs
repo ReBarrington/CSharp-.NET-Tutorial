@@ -8,7 +8,7 @@ namespace GradeBook
         // static only available for the type name vs public
         static void Main(string[] args)
         {
-            var book = new Book("Scott's Grade Book");
+            var book = new Book("Mr. Dickerson");
             book.AddGrade(91);
             book.AddGrade(90.5);
             book.AddGrade(77.5);
