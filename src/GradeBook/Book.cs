@@ -3,23 +3,32 @@ using System.Collections.Generic;
 
 namespace GradeBook
 {
+    public delegate void GradeAddedDelegate(object sender, EventArgs args);
 
     public class NamedObject
     {
-        public string Name {
+        public string Name
+        {
             get;
             set;
         }
     }
 
+    public interface IBook
+    {
+        void AddGrade(double grade);
+        Statistics GetStatistics();
+        string Name { get; }
+        event GradeAddedDelegate GradeAdded;
+    }
+
     public class Book : NamedObject
     {
-        public Book(string teacher) 
+        public Book(string name) : base(name)
         // constructor
         {
-            name = Name;
+            Name = name;
             // getting name from NamedObject inheritance 
-            this.teacher = teacher;
             grades = new List<double>();
             // The double is a fundamental data type built 
             // into the compiler and used to define numeric 
@@ -32,13 +41,14 @@ namespace GradeBook
             grades.Add(grade);
         }
 
-        public void ShowStatistics() {
+        public void ShowStatistics()
+        {
             var average = 0.0;
             var highestGrade = double.MinValue;
             var lowestGrade = double.MaxValue;
 
-            foreach(var number in grades)
-            {   
+            foreach (var number in grades)
+            {
                 highestGrade = Math.Max(number, highestGrade);
                 lowestGrade = Math.Min(number, lowestGrade);
                 average += number;
