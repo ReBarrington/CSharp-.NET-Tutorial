@@ -3,30 +3,9 @@ using System.Collections.Generic;
 
 namespace GradeBook
 {
-    // everything that is a book base, to have a AddGrade method
-    public delegate void GradeAddedDelegate(object sender, EventArgs args);
-
-    public class NamedObject
+    public class Book
     {
-        public string Name
-        {
-            get;
-            set;
-        }
-    }
-
-
-    public interface IBook
-    {
-        void AddGrade(double grade);
-        Statistics GetStatistics();
-        string Name { get; }
-        event GradeAddedDelegate GradeAdded;
-    }
-
-    public class Book : NamedObject
-    {
-        public Book(string name) : base(name)
+        public Book(string name)
         // constructor
         {
             Name = name;
@@ -35,6 +14,29 @@ namespace GradeBook
             // The double is a fundamental data type built 
             // into the compiler and used to define numeric 
             // variables holding numbers with decimal points. 
+        }
+
+        public void AddGrade(char letter)
+        {
+            // map from a character into a number
+            switch(letter)
+            {
+                case 'A':
+                    AddGrade(90);
+                    break;
+                case 'B':
+                    AddGrade(80);
+                    break;
+                case 'C':
+                    AddGrade(70);
+                    break;
+                case 'D':
+                    AddGrade(60);
+                    break;
+                default: 
+                    AddGrade(0);
+                    break;
+            }
         }
 
         public void AddGrade(double grade)
@@ -58,20 +60,39 @@ namespace GradeBook
             result.Low = double.MaxValue;
 
             var i = 0;
-            do
+            while(i < grades.Count)
             {
-                result.High = Math.Max(grades[i], highestGrade);
-                result.Low = Math.Min(grades[i], lowestGrade);
+                result.High = Math.Max(grades[i], result.High);
+                result.Low = Math.Min(grades[i], result.Low);
                 result.Average += grades[i];
                 i++;
-            } while(i < grades.Count);
+            }
             result.Average /= grades.Count;
+
+            switch(result.Average)
+            {
+                case var d when d >= 90.0:
+                    result.Letter = 'A';
+                    break;
+                case var d when d >= 80.0:
+                    result.Letter = 'B';
+                    break;
+                case var d when d >= 70.0:
+                    result.Letter = 'C';
+                    break;
+                case var d when d >= 60.0:
+                    result.Letter = 'D';
+                    break;
+                default:
+                    result.Letter = 'F';
+                    break;
+            }
             
             return result;
         }
 
         // fields
-        private string Name;
+        public string Name;
         private List<double> grades;
     }
 }
