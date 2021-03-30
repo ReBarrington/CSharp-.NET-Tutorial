@@ -10,6 +10,8 @@ namespace GradeBook
         {
             Name = name;
             // getting name from NamedObject inheritance 
+            category;
+            // category is a readonly const field
             grades = new List<double>();
             // The double is a fundamental data type built 
             // into the compiler and used to define numeric 
@@ -91,8 +93,10 @@ namespace GradeBook
             return result;
         }
 
+        // property - read only
+        public string Name { get; private set; }
         // fields
-        public string Name;
         private List<double> grades;
+        public const string category = "Science";
     }
 }
