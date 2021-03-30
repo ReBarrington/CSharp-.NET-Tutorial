@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace GradeBook
 {
+    // everything that is a book base, to have a AddGrade method
     public delegate void GradeAddedDelegate(object sender, EventArgs args);
 
     public class NamedObject
@@ -13,6 +14,7 @@ namespace GradeBook
             set;
         }
     }
+
 
     public interface IBook
     {
@@ -38,32 +40,38 @@ namespace GradeBook
         public void AddGrade(double grade)
         // void because it will not return anything
         {
-            grades.Add(grade);
+            if(grade <= 100 && grade >= 0)
+            {
+                grades.Add(grade);
+            }
+            else
+            {
+                Console.WriteLine("Invalid Value");
+            }
         }
 
-        public void ShowStatistics()
+        public Statistics GetStatistics()
         {
-            var average = 0.0;
-            var highestGrade = double.MinValue;
-            var lowestGrade = double.MaxValue;
+            var result = new Statistics();
+            result.Average = 0.0;
+            result.High = double.MinValue;
+            result.Low = double.MaxValue;
 
-            foreach (var number in grades)
+            var i = 0;
+            do
             {
-                highestGrade = Math.Max(number, highestGrade);
-                lowestGrade = Math.Min(number, lowestGrade);
-                average += number;
-            }
-            average /= grades.Count;
-            // N1 is number with one decimal
-            Console.WriteLine($"{this.teacher}'s class:");
-            Console.WriteLine($"The lowest grade is {lowestGrade}");
-            Console.WriteLine($"The highest grade is {highestGrade}");
-            Console.WriteLine($"The average grade is {average:N1}");
+                result.High = Math.Max(grades[i], highestGrade);
+                result.Low = Math.Min(grades[i], lowestGrade);
+                result.Average += grades[i];
+                i++;
+            } while(i < grades.Count);
+            result.Average /= grades.Count;
+            
+            return result;
         }
 
         // fields
-        private string name;
-        private string teacher;
+        private string Name;
         private List<double> grades;
     }
 }
